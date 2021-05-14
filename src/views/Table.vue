@@ -1,16 +1,15 @@
 <template>
   <div>
+    <!-- show-summary -->
     <el-table
       :data="tableData"
-      height="600"
-      max-height="800"
-      show-summary
+      border
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="data" label="日期" width="180"> </el-table-column>
+      <el-table-column prop="date" label="日期" width="180"> </el-table-column>
       <el-table-column prop="weight" label="重量" width="180"></el-table-column>
-      <el-table-column>
+      <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button
             @click.native.prevent="delateRow(scope.$index, tableData)"
@@ -25,24 +24,21 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      tableData: [
-        {
-          data: "haha",
-          weight: "32",
-        },
-        {
-          data: "haha",
-          weight: "32",
-        },
-        {
-          data: "haha",
-          weight: "32",
-        },
-      ],
+      tableData: [],
     };
+  },
+  mounted: function () {
+    axios
+      .get(this.$store.state.preurl + "/data/weight/allweight")
+      .then((resp) => {
+        if (resp) {
+          this.tableData = resp;
+        }
+      });
   },
   methods: {
     delateRow(index, rows) {

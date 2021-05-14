@@ -4,9 +4,12 @@
       <el-header>
         <div class="title">分栏管理</div>
         <el-dropdown trigger="click" class="user" @command="deal_user">
-          <span> 用户<i class="el-icon-arrow-down el-icon--right"></i> </span>
+          <span>
+            {{ this.$store.state.user.loginName
+            }}<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="person">个人中心</el-dropdown-item>
+            <!-- <el-dropdown-item command="person">个人中心</el-dropdown-item> -->
             <el-popconfirm
               confirm-button-text="确定"
               cancel-button-text="取消"
@@ -82,9 +85,18 @@ a {
 }
 </style>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {};
+  },
+  mounted() {
+    axios
+      .get(this.$store.state.preurl + "/data/user/gercurrenuser/1")
+      .then((response) => {
+        this.$store.setuser(response);
+        console.log(this.store.state.user);
+      });
   },
   methods: {
     deal_user(command) {

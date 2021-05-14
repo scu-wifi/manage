@@ -5,13 +5,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    weburl: "localhost/data",
-    user: {}
+    preurl: "http://localhost",
+    user: {},
   },
   mutations: {
     geturl(state) {
       return state.weburl;
-    }
+    },
+    setuser(userdata) {
+      this.state.user = userdata;
+    },
   },
   actions: {},
   modules: {},

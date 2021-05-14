@@ -10,7 +10,7 @@ import "element-ui/lib/theme-chalk/index.css";
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
-Vue.use(Vuex)
+Vue.use(Vuex);
 Vue.component(Message.name, Message);
 
 // router.beforeEach((to, from, next) => {
@@ -20,6 +20,18 @@ Vue.component(Message.name, Message);
 //     if (to.path == "/") next();
 //     else next("/redirect=" + to.path);
 //   }
+// });
+// router.afterEach((to, from, next) => {
+//   if (from.path === '/' && to.path === '/home') {
+//     axios.get(this.store.state.preurl + "/data/user/gercurrenuser/1").then(
+//       (response) => {
+//         this.store.setuser(response);
+//         console.log(this.store.state.user);
+//       }
+//     )
+//     next();
+//   }
+//   next();
 // });
 
 axios.interceptors.response.use(
