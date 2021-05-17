@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/home">menu</router-link>
+    <!-- <router-link to="/home">menu</router-link> -->
     <div class="login">
       <el-form
         :model="UserData"

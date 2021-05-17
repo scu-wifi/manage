@@ -8,6 +8,7 @@ import Feed from "@/views/Feed.vue";
 import Equipment from "@/views/Equipment.vue";
 import Person from "@/views/Person.vue";
 import PersonManage from "@/views/PersonManage.vue";
+import EqLog from "@/views/EqLog.vue";
 
 Vue.use(VueRouter);
 
@@ -54,6 +55,10 @@ const routes = [
       {
         path: "/pmanage",
         component: PersonManage,
+      },
+      {
+        path: "/eqlog",
+        component: EqLog,
       },
     ],
   },

@@ -5,9 +5,9 @@
         v-model="visable"
         title="添加管理人员"
         placement="bottom-start"
-        @show="clear"
+        @show="clear()"
       >
-        <el-form :model="usersdata" :rules="rules" ref="UserData">
+        <el-form :model="usersdata" :rules="rules" :ref="formName">
           <el-form-item prop="loginName" class="inputitem">
             <el-input
               type="text"
@@ -44,19 +44,25 @@
               placeholder="邮箱"
             ></el-input>
           </el-form-item>
-          <el-select v-model="usersdata.chageRight" placeholder="用户类型" size>
-            <el-option label="系统管理员" value="系统管理员"> </el-option>
-            <el-option label="普通用户" value="普通用户"> </el-option>
-          </el-select>
-          <el-select v-model="usersdata.userType" placeholder="修改权限">
-            <el-option label="允许修改" value="允许修改"> </el-option>
-            <el-option label="禁止修改" value="禁止修改"></el-option>
-          </el-select>
+          <el-form-item class="inputitem">
+            <el-select
+              v-model="usersdata.chageRight"
+              placeholder="用户类型"
+              size
+            >
+              <el-option label="系统管理员" value="系统管理员"> </el-option>
+              <el-option label="普通用户" value="普通用户"> </el-option>
+            </el-select>
+            <el-select v-model="usersdata.userType" placeholder="修改权限">
+              <el-option label="允许修改" value="允许修改"> </el-option>
+              <el-option label="禁止修改" value="禁止修改"></el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
         <el-button type="success" class="topbutton" @click="add"
           >确定</el-button
         >
-        <el-button type="info" class="rightbutton" @click="quence"
+        <el-button type="info" class="rightbutton" @click="quence()"
           >取消</el-button
         >
         <el-button type="primary" slot="reference">添加</el-button>
@@ -197,6 +203,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      formName: "UserData",
       multipleSelection: [],
       visable: false,
       usersdata: {
@@ -209,20 +216,20 @@ export default {
         userType: "",
       },
       alluserdata: [
-        {
-          id: 9,
-          loginName: "fewf",
-          password:
-            "$2a$10$os63LmO/yQxcp1EEaoQKRe.6B.sfQbW1U5/4PmsN4O6hPANcsJ3WG",
-          name: "傻逼",
-          email: "fsfsed@163.com",
-          mobile: "134867237",
-          userType: "管理员",
-          chageRight: "允许修改",
-          photo: null,
-          enabled: true,
-          username: "fewf",
-        },
+        // {
+        //   id: 9,
+        //   loginName: "fewf",
+        //   password:
+        //     "$2a$10$os63LmO/yQxcp1EEaoQKRe.6B.sfQbW1U5/4PmsN4O6hPANcsJ3WG",
+        //   name: "傻逼",
+        //   email: "fsfsed@163.com",
+        //   mobile: "134867237",
+        //   userType: "管理员",
+        //   chageRight: "允许修改",
+        //   photo: null,
+        //   enabled: true,
+        //   username: "fewf",
+        // },
       ],
       rules: {
         loginName: [{ required: true, message: "请输入用户", trigger: "blur" }],
@@ -314,6 +321,7 @@ export default {
     },
     quence() {
       this.visable = false;
+      this.$refs[this.formName].resetFields();
     },
     clear() {
       this.usersdata.loginName = "";
@@ -322,6 +330,7 @@ export default {
       this.usersdata.email = "";
       this.usersdata.userType = "";
       this.usersdata.chageRight = "";
+      this.$refs[this.formName].resetFields();
     },
     delateall() {
       let ids = "?";

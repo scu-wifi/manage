@@ -7,20 +7,21 @@ import store from "./store";
 import ElementUI from "element-ui";
 import axios from "axios";
 import "element-ui/lib/theme-chalk/index.css";
+import "./assets/style.css";
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(Vuex);
 Vue.component(Message.name, Message);
 
-// router.beforeEach((to, from, next) => {
-//   if (window.sessionStorage.getItem("tokenStr")) {
-//     next();
-//   } else {
-//     if (to.path == "/") next();
-//     else next("/redirect=" + to.path);
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (window.sessionStorage.getItem("tokenStr")) {
+    next();
+  } else {
+    if (to.path == "/") next();
+    else next("/");
+  }
+});
 // router.afterEach((to, from, next) => {
 //   if (from.path === '/' && to.path === '/home') {
 //     axios.get(this.store.state.preurl + "/data/user/gercurrenuser/1").then(

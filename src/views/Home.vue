@@ -2,25 +2,19 @@
   <div class="menu">
     <el-container>
       <el-header>
-        <div class="title">分栏管理</div>
-        <el-dropdown trigger="click" class="user" @command="deal_user">
-          <span>
-            {{ this.$store.state.user.loginName
-            }}<i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <!-- <el-dropdown-item command="person">个人中心</el-dropdown-item> -->
-            <el-popconfirm
-              confirm-button-text="确定"
-              cancel-button-text="取消"
-              title="确定退出吗？"
-              @confirm="logout_two"
-            >
-              <el-dropdown-item slot="reference">注销登录 </el-dropdown-item>
-            </el-popconfirm>
-            <el-dropdown-item command="passward">修改密码</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <div class="title">育肥猪分栏信息管理系统</div>
+        <div class="show">
+          {{ this.$store.state.user.loginName
+          }}<i class="el-icon-exit el-icon--right"></i>
+          <el-popconfirm
+            confirm-button-text="确定"
+            cancel-button-text="取消"
+            title="确定退出登录吗？"
+            @confirm="logout_two"
+          >
+            <el-span class="icon-exit" slot="reference"></el-span>
+          </el-popconfirm>
+        </div>
       </el-header>
       <el-container>
         <el-aside>
@@ -38,8 +32,8 @@
               <el-menu-item @click="weight_to"> 育肥监控 </el-menu-item>
 
               <el-menu-item @click="mechin_to">设备管理</el-menu-item>
-              <el-menu-item @click="feed_to">饲料信息</el-menu-item>
-              <el-menu-item @click="histroy">往期数据</el-menu-item>
+              <!-- <el-menu-item @click="feed_to">饲料信息</el-menu-item> -->
+              <el-menu-item @click="histroy">设备日志</el-menu-item>
             </el-submenu>
           </el-menu>
         </el-aside>
@@ -51,6 +45,23 @@
   </div>
 </template>
 <style>
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "icomoon";
+  speak: never;
+  font-size: 18px;
+  color: #606266;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 .el-container {
   margin: 0;
   padding: 0;
@@ -64,6 +75,9 @@
   color: #333;
   text-align: center;
 }
+.aside {
+  background-color: #308dee;
+}
 .title {
   display: inline-block;
   height: 60px;
@@ -72,7 +86,7 @@
   font-size: 30px;
   font-weight: 600;
 }
-.user {
+.show {
   cursor: pointer;
   float: right;
   margin: 30px 30px;
@@ -94,8 +108,8 @@ export default {
     axios
       .get(this.$store.state.preurl + "/data/user/gercurrenuser/1")
       .then((response) => {
-        this.$store.setuser(response);
-        console.log(this.store.state.user);
+        this.$store.commit("setuser", response);
+        console.log("user" + JSON.stringify(this.$store.state.user));
       });
   },
   methods: {
@@ -142,7 +156,7 @@ export default {
       this.$router.push("/equipment");
     },
     histroy() {
-      this.$router.push("/home/");
+      this.$router.push("/eqlog");
     },
   },
 };

@@ -5,17 +5,34 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    preurl: "http://localhost",
-    user: {},
+    // preurl: "http://47.96.225.103",
+    preurl: "http://localhost:8080/host",
+    user: {
+      // id: 0,
+      // loginName: "",
+      // password:
+      //   "",
+      // name: "",
+      // email: "",
+      // mobile: "",
+      // userType: "",
+      // chageRight: "",
+      // photo: "",
+      // username: "",
+    },
   },
   mutations: {
     geturl(state) {
       return state.weburl;
     },
-    setuser(userdata) {
-      this.state.user = userdata;
+    setuser(state, userdata) {
+      state.user = userdata;
     },
   },
-  actions: {},
+  actions: {
+    updatauser(context, user) {
+      context.commit("seruser", user);
+    },
+  },
   modules: {},
 });

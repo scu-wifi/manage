@@ -1,6 +1,12 @@
 <template>
   <div>
     <!-- show-summary -->
+    <div style="padding-bottom: 10px">
+      <el-button type="primary" size="small" @click="refreshWeight()"
+        >刷新</el-button
+      >
+    </div>
+
     <el-table
       :data="tableData"
       border
@@ -31,16 +37,19 @@ export default {
       tableData: [],
     };
   },
-  mounted: function () {
-    axios
-      .get(this.$store.state.preurl + "/data/weight/allweight")
-      .then((resp) => {
-        if (resp) {
-          this.tableData = resp;
-        }
-      });
+  mounted() {
+    this.refreshWeight();
   },
   methods: {
+    refreshWeight() {
+      axios
+        .get(this.$store.state.preurl + "/data/weight/allweight")
+        .then((resp) => {
+          if (resp) {
+            this.tableData = resp;
+          }
+        });
+    },
     delateRow(index, rows) {
       rows.splice(index, 1);
     },
