@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/Login.vue";
 import Home from "@/views/Home.vue";
-import Table from "@/views/Table.vue";
+import Weight from "@/views/Weight.vue";
 import Main from "@/views/Main.vue";
 import Feed from "@/views/Feed.vue";
 import Equipment from "@/views/Equipment.vue";
@@ -19,7 +19,7 @@ const routes = [
   },
   {
     path: "/login",
-    name: Login,
+    name: 'Login',
     component: Login,
   },
   {
@@ -37,8 +37,8 @@ const routes = [
       },
       {
         path: "/table",
-        name: "table",
-        component: Table,
+        name: "育肥监控",
+        component: Weight,
       },
       {
         path: "/feed",
@@ -46,18 +46,22 @@ const routes = [
       },
       {
         path: "/equipment",
+        name: '设备管理',
         component: Equipment,
       },
       {
         path: "/person",
+        name: '个人主页',
         component: Person,
       },
       {
         path: "/pmanage",
+        name: '授权管理',
         component: PersonManage,
       },
       {
         path: "/eqlog",
+        name: '设备日志',
         component: EqLog,
       },
     ],

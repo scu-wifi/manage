@@ -13,7 +13,15 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="date" label="日期" width="180"> </el-table-column>
+      <el-table-column
+        prop="date"
+        label="日期"
+        width="180"
+        :filters="filter"
+        :filter-method="filterHandler"
+        filter-placement="bottom-end"
+      >
+      </el-table-column>
       <el-table-column prop="weight" label="重量" width="180"></el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
@@ -34,11 +42,18 @@ import axios from "axios";
 export default {
   data() {
     return {
+      filter: [],
       tableData: [],
     };
   },
-  mounted() {
+  beforeMount() {
     this.refreshWeight();
+  },
+  mounted() {
+    this.select();
+    console.log(this.filter);
+    let a = this.filter;
+    this.filter = a;
   },
   methods: {
     refreshWeight() {
@@ -49,12 +64,38 @@ export default {
             this.tableData = resp;
           }
         });
+
+      // this.filter = Array.from(new Set(this.filter));
+      // console.log("set:" + this.filter);
+    },
+    select() {
+      this.tableData.forEach((element) => {
+        console.log("element:" + JSON.stringify(element));
+        let ele = element.date;
+        console.log("ele:" + ele);
+        let valuele = ele.substring(0, 10);
+        this.filter.push({ text: valuele, value: ele });
+        console.log(this.filter);
+      });
     },
     delateRow(index, rows) {
       rows.splice(index, 1);
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+
+    filterHandler(value, row, column) {
+      console.log(
+        "value:" +
+          value +
+          "row: " +
+          JSON.stringify(row) +
+          "\r\ncolumn:" +
+          JSON.stringify(column)
+      );
+      const property = column["property"];
+      return row[property] === value;
     },
   },
 };

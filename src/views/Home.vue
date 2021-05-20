@@ -38,6 +38,7 @@
           </el-menu>
         </el-aside>
         <el-main>
+          <el-breadcrumb separator-class="el-icon-arrow-right"> </el-breadcrumb>
           <router-view></router-view>
         </el-main>
       </el-container>
