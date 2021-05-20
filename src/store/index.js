@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     // preurl: "http://47.96.225.103",
-    preurl: "http://localhost:8080/host",
+    preurl: "http://localhost:8082/host",
     user: {
       // id: 0,
       // loginName: "",
