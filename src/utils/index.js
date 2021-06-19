@@ -39,7 +39,7 @@ axios.interceptors.response.use(
       Message.error({ message: "权限不足" });
     } else if (error.response.code == 401) {
       Message.error({ message: "尚未登录" });
-      router.replace("/");
+      this.$router.replace("/");
     } else {
       if (error.response.data.message) {
         Message.error({ message: error.response.data.message });

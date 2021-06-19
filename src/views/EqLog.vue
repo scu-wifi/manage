@@ -1,11 +1,21 @@
 <template>
   <div class="log">
     <div style="padding-bottom: 10px">
-      <el-button type="primary" @click="refreshEqlog()" size="small"
+      <el-button
+        type="primary"
+        @click="refreshEqlog()"
+        size="small"
+        style="margin-bottom: 10px"
         >刷新</el-button
       >
     </div>
-    <el-table :data="logdata" border @selection-change="handleSelectionChange">
+    <el-table
+      :data="logdata"
+      border
+      @selection-change="handleSelectionChange"
+      stripe
+      height="650"
+    >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column
         align="center"

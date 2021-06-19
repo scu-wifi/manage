@@ -11,6 +11,7 @@
             :header="header"
             :data="myuser"
             :show-file-list="false"
+            :before-upload="beforeAvatarUpload"
             :on-success="onSuccess"
           >
             <img
@@ -26,13 +27,19 @@
           </div>
         </div>
         <div class="item">
+          <span class="ch">姓&nbsp;&nbsp;&nbsp;名&nbsp;:</span>
+          <div class="mytag">
+            <el-tag>{{ myuser.name }}</el-tag>
+          </div>
+        </div>
+        <div class="item">
           <span class="ch">手机号:</span>
           <div class="mytag">
             <el-tag>{{ myuser.mobile }}</el-tag>
           </div>
         </div>
         <div class="item">
-          <span class="ch">邮 箱:</span>
+          <span class="ch">邮 &nbsp;箱&nbsp;:</span>
           <div class="mytag">
             <el-tag>{{ myuser.email }}</el-tag>
           </div>
@@ -76,6 +83,13 @@
               <el-form-item>
                 <el-input
                   type="text"
+                  v-model="myuser.name"
+                  placeholder="姓名"
+                ></el-input
+              ></el-form-item>
+              <el-form-item>
+                <el-input
+                  type="text"
                   v-model="myuser.mobile"
                   placeholder="手机号"
                   @keydown.enter.native="add"
@@ -89,13 +103,11 @@
                   @keydown.enter.native="add"
                 ></el-input
               ></el-form-item>
-              <el-form-item>
+              <el-form-item class="buttonitem">
                 <el-button type="primary" @click="submitMessageForm('ruleForm')"
                   >提交</el-button
                 >
-                <el-button class="pass" @click="resetForm('ruleForm')"
-                  >重置</el-button
-                >
+                <el-button class="pass" @click="cancle">取消</el-button>
               </el-form-item>
             </el-form>
           </el-dialog>
@@ -215,18 +227,14 @@ export default {
   },
   mounted() {
     this.myuser = this.$store.state.user;
-    console.log(this.$store.state.user);
-    console.log(this.myuser);
+    // console.log(this.$store.state.user);
+    // console.log(this.myuser);
   },
 
   methods: {
     getmessage() {
       axios
-        .get(
-          this.$store.state.preurl +
-            "/data/user/gercurrenuser/" +
-            this.$store.state.user.id
-        )
+        .get(this.$store.state.preurl + "/data/user/gercurrenuser")
         .then((resp) => {
           if (resp) {
             this.$store.commit("setuser", resp);
@@ -248,11 +256,11 @@ export default {
             .then((resp) => {
               if (resp) {
                 axios
-                  .get(this.$store.state.preurl + "/data/user/gercurrenuser/1")
+                  .get(this.$store.state.preurl + "/data/user/gercurrenuser")
                   .then((response) => {
                     this.$store.commit("setuser", response);
+                    this.myuser = response;
                   });
-                this.myuser = this.$store.state.user;
               }
             });
         } else {
@@ -277,6 +285,23 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    cancle() {
+      this.getmessage();
+      this.primary = false;
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isPng = file.type === "image/png";
+      // const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG && !isPng) {
+        this.$message.error("上传头像图片只能是 JPG/png 格式!");
+      }
+      // if (!isLt2M) {
+      //   this.$message.error("上传头像图片大小不能超过 2MB!");
+      // }
+      return isJPG || isPng;
     },
   },
 };
@@ -321,5 +346,10 @@ export default {
 
 .box-card {
   width: 480px;
+}
+</style>
+<style scoped>
+.item .buttonitem {
+  margin: 5px 10px;
 }
 </style>

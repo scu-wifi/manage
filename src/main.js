@@ -12,7 +12,13 @@ import "./assets/style.css";
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(Vuex);
+// Vue.use(echarts)
 Vue.component(Message.name, Message);
+Vue.prototype.$echarts = window.echarts;
+// Vue.prototype.$http.get("./webcofig.json").then(res => {
+//   console.log(res);
+//   // Vue.prototype.$baseurl = res.baseurl
+// })
 
 router.beforeEach((to, from, next) => {
   if (window.sessionStorage.getItem("tokenStr")) {
@@ -22,18 +28,6 @@ router.beforeEach((to, from, next) => {
     else next("/");
   }
 });
-// router.afterEach((to, from, next) => {
-//   if (from.path === '/' && to.path === '/home') {
-//     axios.get(this.store.state.preurl + "/data/user/gercurrenuser/1").then(
-//       (response) => {
-//         this.store.setuser(response);
-//         console.log(this.store.state.user);
-//       }
-//     )
-//     next();
-//   }
-//   next();
-// });
 
 axios.interceptors.response.use(
   (success) => {

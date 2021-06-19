@@ -45,36 +45,37 @@
             ></el-input>
           </el-form-item>
           <el-form-item class="inputitem">
-            <el-select
-              v-model="usersdata.chageRight"
-              placeholder="用户类型"
-              size
-            >
-              <el-option label="系统管理员" value="系统管理员"> </el-option>
-              <el-option label="普通用户" value="普通用户"> </el-option>
+            <el-select v-model="usersdata.userType" placeholder="用户类型" size>
+              <el-option label="管理员" value="管理员"> </el-option>
+              <el-option label="普通用户" value="用户"> </el-option>
             </el-select>
-            <el-select v-model="usersdata.userType" placeholder="修改权限">
+            <el-select v-model="usersdata.chageRight" placeholder="修改权限">
               <el-option label="允许修改" value="允许修改"> </el-option>
               <el-option label="禁止修改" value="禁止修改"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
-        <el-button type="success" class="topbutton" @click="add"
-          >确定</el-button
-        >
+        <el-button type="success" @click="add">确定</el-button>
         <el-button type="info" class="rightbutton" @click="quence()"
           >取消</el-button
         >
-        <el-button type="primary" slot="reference">添加</el-button>
+        <el-button
+          type="primary"
+          slot="reference"
+          class="eqtopbutton"
+          style="margin-bottom: 15px"
+          >添加</el-button
+        >
       </el-popover>
       <el-popconfirm
-        class="topbutton"
+        style="padding-left: 10px"
         confirm-button-text="确定"
         cancel-button-text="取消"
         title="确定全部删除吗？"
         @confirm="delateall"
       >
         <el-button
+          class="eqtopbutton"
           type="danger"
           slot="reference"
           :disabled="this.multipleSelection.length == 0"
@@ -246,7 +247,7 @@ export default {
         case "t":
           row[index].userType = "管理员";
           axios
-            .put(this.$store.state.preurl + "/data/user/updateuser")
+            .put(this.$store.state.preurl + "/data/user/updateuser", row[index])
             .then((resp) => {
               if (resp) {
                 this.refresh();
@@ -256,7 +257,7 @@ export default {
         case "f":
           row[index].userType = "用户";
           axios
-            .put(this.$store.state.preurl + "/data/user/updateuser")
+            .put(this.$store.state.preurl + "/data/user/updateuser", row[index])
             .then((resp) => {
               if (resp) {
                 this.refresh();
@@ -270,7 +271,7 @@ export default {
         case "t":
           row[index].chageRight = "允许修改";
           axios
-            .put(this.$store.state.preurl + "/data/user/updateuser")
+            .put(this.$store.state.preurl + "/data/user/updateuser", row[index])
             .then((resp) => {
               if (resp) {
                 this.refresh();
@@ -280,7 +281,7 @@ export default {
         case "f":
           row[index].chageRight = "禁止修改";
           axios
-            .put(this.$store.state.preurl + "/data/user/updateuser")
+            .put(this.$store.state.preurl + "/data/user/updateuser", row[index])
             .then((resp) => {
               if (resp) {
                 this.refresh();
@@ -292,6 +293,7 @@ export default {
     refresh() {
       axios.get(this.$store.state.preurl + "/data/user/getall").then((resp) => {
         this.alluserdata = resp;
+        this.alluserdata.shift();
       });
     },
     add() {
@@ -374,7 +376,7 @@ export default {
 .table {
   margin-top: 5px;
 }
-.topbutton {
+.el-button .eqtopbutton {
   margin-top: 20px;
   margin-left: 20px;
   margin-right: 50px;

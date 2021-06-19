@@ -49,13 +49,10 @@ export default {
   },
   methods: {
     submit() {
-      // this.$refs[Form].validata((valid) => {
-      //   if (valid) {
       axios
         .post(this.$store.state.preurl + "/data/login", this.UserData)
         .then((resp) => {
           if (resp) {
-            // console.log(resp.obj);resp.obj.tokenHead +
             const tokenStr = resp.obj.token;
             window.sessionStorage.setItem("tokenStr", tokenStr);
             let path = this.$route.query.redirect;

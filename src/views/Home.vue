@@ -1,11 +1,18 @@
 <template>
   <div class="menu">
-    <el-container>
+    <el-container style="height: 100%">
       <el-header>
-        <div class="title">育肥猪分栏信息管理系统</div>
+        <div class="title">
+          <router-link to="/main">育肥猪分栏信息管理系统</router-link>
+        </div>
         <div class="show">
-          {{ this.$store.state.user.loginName
-          }}<i class="el-icon-exit el-icon--right"></i>
+          <span style="line-height: 20px">{{
+            this.$store.state.user.loginName
+          }}</span>
+          <i
+            class="el-icon-exit el-icon--right"
+            style="padding-bottom: -3px"
+          ></i>
           <el-popconfirm
             confirm-button-text="确定"
             cancel-button-text="取消"
@@ -16,29 +23,106 @@
           </el-popconfirm>
         </div>
       </el-header>
-      <el-container>
-        <el-aside>
-          <el-menu>
-            <el-submenu index="1">
-              <span slot="title">人员管理</span>
-              <el-menu-item index="1-1" @click="person">个人主页</el-menu-item>
-              <el-menu-item index="1-2" @click="person_manage"
-                >授权管理</el-menu-item
+      <el-container style="height: 100%">
+        <div class="aside color">
+          <el-aside class="color">
+            <el-menu
+              style="width: 260px"
+              background-color="#409EFF"
+              active-text-color="#ffd04b"
+            >
+              <el-submenu index="1">
+                <span
+                  slot="title"
+                  style="
+                    font-size: 24px;
+                    margin-left: 38px;
+                    font-weight: 600;
+                    font-family: 楷体;
+                  "
+                  >系统设置</span
+                >
+                <el-menu-item
+                  index="1-1"
+                  @click="person"
+                  style="
+                    font-size: 24px;
+                    margin-left: 38px;
+                    font-weight: 600;
+                    font-family: 楷体;
+                  "
+                  >个人主页</el-menu-item
+                >
+                <el-menu-item
+                  index="1-2"
+                  @click="person_manage"
+                  :disabled="this.$store.state.user.id !== 1"
+                  style="
+                    font-size: 24px;
+                    margin-left: 38px;
+                    font-weight: 600;
+                    font-family: 楷体;
+                  "
+                  >授权管理</el-menu-item
+                >
+              </el-submenu>
+              <el-menu-item
+                @click="weight_to"
+                style="
+                  font-size: 24px;
+                  margin-left: 38px;
+                  font-weight: 600;
+                  font-family: 楷体;
+                "
+                index="2"
               >
-            </el-submenu>
-
-            <el-submenu index="2">
-              <span slot="title">猪场管理</span>
-              <el-menu-item @click="weight_to"> 育肥监控 </el-menu-item>
-
-              <el-menu-item @click="mechin_to">设备管理</el-menu-item>
-              <!-- <el-menu-item @click="feed_to">饲料信息</el-menu-item> -->
-              <el-menu-item @click="histroy">设备日志</el-menu-item>
-            </el-submenu>
-          </el-menu>
-        </el-aside>
-        <el-main>
-          <el-breadcrumb separator-class="el-icon-arrow-right"> </el-breadcrumb>
+                生猪信息查看
+              </el-menu-item>
+              <!-- <el-submenu index="2">
+              <span slot="title">统计分析</span>
+              <el-menu-item @click="feed_to">信息分布</el-menu-item>
+              <el-menu-item @click="feed_to">饲料信息</el-menu-item>
+            </el-submenu> -->
+              <el-menu-item
+                index="3"
+                @click="data_to"
+                style="
+                  font-size: 24px;
+                  margin-left: 38px;
+                  font-weight: 600;
+                  font-family: 楷体;
+                "
+                >生猪信息统计</el-menu-item
+              >
+              <el-menu-item
+                @click="mechin_to"
+                style="
+                  font-size: 24px;
+                  margin-left: 38px;
+                  font-weight: 600;
+                  font-family: 楷体;
+                "
+                index="4"
+                >系统预警</el-menu-item
+              >
+              <el-menu-item
+                index="5"
+                @click="histroy"
+                style="
+                  font-size: 24px;
+                  margin-left: 38px;
+                  font-weight: 600;
+                  font-family: 楷体;
+                "
+                >系统日志</el-menu-item
+              >
+            </el-menu>
+          </el-aside>
+        </div>
+        <el-main style="background-color: #fdfdfd">
+          <el-breadcrumb separator-class="el-icon-arrow-right">{{
+            this.$router.currentname
+          }}</el-breadcrumb>
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -63,21 +147,40 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+::-webkit-scrollbar {
+  width: 0 !important;
+}
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
+}
 .el-container {
   margin: 0;
   padding: 0;
 }
-
+.menu {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  caret-color: transparent;
+}
 .el-header {
-  position: relative;
+  /* position: relative; */
   margin: 0;
   padding: 0;
-  background-color: #409eff;
-  color: #333;
+  background-color: #3d77ff;
+
   text-align: center;
 }
 .aside {
-  background-color: #308dee;
+  width: 260px;
+  height: 100%;
+  background-color: #409eff;
+  box-shadow: 15px -10 15px -5px #cac6c6, -15px -10 15px -5px transparent;
+}
+.color {
+  /* background-color: #2f73f1; */
 }
 .title {
   display: inline-block;
@@ -90,7 +193,7 @@
 .show {
   cursor: pointer;
   float: right;
-  margin: 30px 30px;
+  margin: 20px 30px 30px 30px;
 }
 .button {
   border-width: 0;
@@ -107,11 +210,14 @@ export default {
   },
   mounted() {
     axios
-      .get(this.$store.state.preurl + "/data/user/gercurrenuser/1")
+      .get(this.$store.state.preurl + "/data/user/gercurrenuser")
       .then((response) => {
         this.$store.commit("setuser", response);
-        console.log("user" + JSON.stringify(this.$store.state.user));
       });
+    this.$store.dispatch("connect");
+  },
+  destroyed() {
+    this.$store.dispatch("disconnect");
   },
   methods: {
     deal_user(command) {
@@ -158,6 +264,9 @@ export default {
     },
     histroy() {
       this.$router.push("/eqlog");
+    },
+    data_to() {
+      this.$router.push("/statistic");
     },
   },
 };

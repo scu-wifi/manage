@@ -9,6 +9,7 @@ import Equipment from "@/views/Equipment.vue";
 import Person from "@/views/Person.vue";
 import PersonManage from "@/views/PersonManage.vue";
 import EqLog from "@/views/EqLog.vue";
+import Data from "@/views/Data.vue";
 
 Vue.use(VueRouter);
 
@@ -19,7 +20,7 @@ const routes = [
   },
   {
     path: "/login",
-    name: 'Login',
+    name: "Login",
     component: Login,
   },
   {
@@ -46,23 +47,28 @@ const routes = [
       },
       {
         path: "/equipment",
-        name: '设备管理',
+        name: "设备管理",
         component: Equipment,
       },
       {
         path: "/person",
-        name: '个人主页',
+        name: "个人主页",
         component: Person,
       },
       {
         path: "/pmanage",
-        name: '授权管理',
+        name: "授权管理",
         component: PersonManage,
       },
       {
         path: "/eqlog",
-        name: '设备日志',
+        name: "设备日志",
         component: EqLog,
+      },
+      {
+        path: "/statistic",
+        name: "统计",
+        component: Data,
       },
     ],
   },
@@ -72,5 +78,8 @@ const router = new VueRouter({
   mode: "history",
   routes,
 });
-
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch((err) => err);
+};
 export default router;

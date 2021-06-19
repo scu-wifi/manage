@@ -127,7 +127,10 @@ export default {
         item1.nameEq = value;
 
         axios
-          .post(this.$store.state.preurl + "/data/state-equpment/update", item1)
+          .post(
+            this.$store.state.preurl + "/data/state-equpment/updatename",
+            item1
+          )
           .then((resp) => {
             if (resp) {
               this.refersheq();
@@ -137,26 +140,37 @@ export default {
     },
     tempeter(value, item) {
       console.log(value, item);
-      this.logdata.idEq = item.idEq;
-      this.logdata.loginName = this.$store.state.user.loginName;
-      this.logdata.operation = "用户";
-      if (value) {
-        this.logdata.kindOp = "开启";
+      if (
+        this.$store.state.user.userType === "管理员" ||
+        this.$store.state.user.userType === "系统管理员"
+      ) {
+        this.logdata.idEq = item.idEq;
+        this.logdata.loginName = this.$store.state.user.loginName;
+        this.logdata.operation = "用户";
+        if (value) {
+          this.logdata.kindOp = "开启";
+        } else {
+          this.logdata.kindOp = "关闭";
+        }
+        item.runState = value;
+        axios
+          .post(this.$store.state.preurl + "/data/state-equpment/update", item)
+          .then((resp) => {
+            if (resp) {
+              this.refersheq();
+            }
+          });
+        axios.put(
+          this.$store.state.preurl + "/data/log-equpment/chagestate",
+          this.logdata
+        );
       } else {
-        this.logdata.kindOp = "关闭";
-      }
-      item.runState = value;
-      axios
-        .post(this.$store.state.preurl + "/data/state-equpment/update", item)
-        .then((resp) => {
-          if (resp) {
-            this.refersheq();
-          }
+        this.$message({
+          type: "warning",
+          message: "您不是管理员，如有需要请联系管理员",
         });
-      axios.put(
-        this.$store.state.preurl + "/data/log-equpment/chagestate",
-        this.logdata
-      );
+        this.refersheq();
+      }
     },
   },
 };
